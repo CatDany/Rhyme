@@ -3,6 +3,7 @@ package catdany.proj.rhyme;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Random;
 
 public class Rhyme
@@ -31,7 +32,12 @@ public class Rhyme
 	
 	public static void main(String[] args) throws IOException
 	{
-		BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+		boolean applyCharsetFix = false;
+		if (args.length > 0 && args[0].equals("cf"))
+		{
+			applyCharsetFix = true;
+		}
+		BufferedReader r = new BufferedReader(new InputStreamReader(System.in, applyCharsetFix ? Charset.forName("cp866") : Charset.defaultCharset()));
 		System.out.println(Local.WELCOME);
 		while (true)
 		{
@@ -57,17 +63,17 @@ public class Rhyme
 	 */
 	public static String getEnding(String word)
 	{
-		if (word.split("`").length > 2)
+		if (word.split("'").length > 2)
 		{
 			System.out.println(Local.TOO_MANY_EMPHASES);
 			return null;
 		}
-		else if (!word.contains("`"))
+		else if (!word.contains("'"))
 		{
 			System.out.println(Local.EMPHASIS_NOT_SPECIFIED);
 			return null;
 		}
-		return word.split("`", 2)[1];
+		return word.split("'", 2)[1];
 	}
 	
 	/**
